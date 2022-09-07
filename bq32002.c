@@ -143,6 +143,8 @@ void BQ32002_writeIRQ( uint8_t state ){
 	TWI_write_buf( BQ32002_ADDR, BQ32002_REG_CAL_CFG1, 1, buf );
 }
 
+#ifdef BQ32002_CALIBRATION
+
 void BQ32002_enableFreqTest( void ){
 	uint8_t buf[1];
 	TWI_read_buf( BQ32002_ADDR, BQ32002_REG_CAL_CFG1, 1, buf );
@@ -192,6 +194,8 @@ void BQ32002_setCalFreq( uint8_t mode ){
 		TWI_write_buf( BQ32002_ADDR, BQ32002_REG_SF_KEY_1, 3, buf );
 	}
 }
+
+#endif // BQ32002_CALIBRATION
 
 void uint8ToStr( char str[], uint8_t num, uint8_t len ){
 	uint8_t rem;
