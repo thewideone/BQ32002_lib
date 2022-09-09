@@ -11,7 +11,7 @@
 #include <stdint.h>
 //#include <inttypes.h>
 
-#define BQ32002_ADDR 0b01101000
+#define BQ32002_ADDR 0b11010000//0x68//0b01101000
 
 // Registers
 #define BQ32002_REG_SECONDS 0x00

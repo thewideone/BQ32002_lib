@@ -11,6 +11,8 @@
 #include "bq32002.h"
 #include "../I2C_TWI/i2c_twi.h"
 
+#include "../uart_lib/uart.h"
+
 void BQ32002_init( void ){
 	i2cSetBitrate();
 	// Force start its oscillator?
