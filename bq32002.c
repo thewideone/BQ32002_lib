@@ -5,6 +5,8 @@
  *      Author: Szymon Kajda
  */
 
+// Uses I2C_TWI library
+
 #include <avr/io.h>
 #include <util/atomic.h>	// used for access to the SFR register
 
@@ -21,7 +23,7 @@ void BQ32002_init( void ){
 void BQ32002_getDateTime( datetime_t * dt ){
 	uint8_t i;
 	uint8_t buf[7];
-	TWI_read_buf( BQ32002_ADDR, 0x00, 7, buf );
+	TWI_read_buf( BQ32002_ADDR, BQ32002_REG_SECONDS, 7, buf );
 	for( i=0; i<7; i++ ) dt->bytes[i] = bcd2dec( buf[i] );
 
 #if TIME_AS_STRING == 1 || DATE_AS_STRING == 1
@@ -59,7 +61,7 @@ void BQ32002_setTime( uint8_t hh, uint8_t mm, uint8_t ss ){
 	buf[0] = dec2bcd(ss);
 	buf[1] = dec2bcd(mm);
 	buf[2] = dec2bcd(hh);
-	TWI_write_buf( BQ32002_ADDR, 0x00, 3, buf );
+	TWI_write_buf( BQ32002_ADDR, BQ32002_REG_SECONDS, 3, buf );
 }
 
 void BQ32002_setDate( uint8_t year, uint8_t month, uint8_t day, uint8_t dayofweek ){
