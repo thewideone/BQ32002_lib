@@ -3,15 +3,17 @@
  *
  *  Created on: 6 Sep 2022
  *      Author: Szymon Kajda
+ *
+ *  Higher-level code based on DS3231
+ *  RTC library by Mirosław Kardaś from Atnel
  */
 
 #ifndef BQ32002_LIB_BQ32002_H_
 #define BQ32002_LIB_BQ32002_H_
 
 #include <stdint.h>
-//#include <inttypes.h>
 
-#define BQ32002_ADDR 0b11010000//0x68//0b01101000
+#define BQ32002_ADDR 0b11010000 // = 0xD0
 
 // Registers
 #define BQ32002_REG_SECONDS 0x00

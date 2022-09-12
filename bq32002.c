@@ -183,13 +183,16 @@ void BQ32002_setCalValue( uint8_t val ){
 
 void BQ32002_setCalFreq( uint8_t mode ){
 	uint8_t buf[3];
-	buf[0] = BQ32002_REG_SF_KEY_1;
-	buf[1] = BQ32002_REG_SF_KEY_2;
+	buf[0] = BQ32002_SF_KEY_1;	// value for BQ32002_REG_SF_KEY_1
+	buf[1] = BQ32002_SF_KEY_2;	// value for BQ32002_REG_SF_KEY_2
 
+	// Value for BQ32002_REG_SFR
+	// we're only interested in the FTF bit,
+	// the rest should be written as 0's
 	if( mode )
-		buf[2] |= (1<<BQ32002_FTF_BIT);
+		buf[2] = (1<<BQ32002_FTF_BIT);
 	else
-		buf[2] &= ~(1<<BQ32002_FTF_BIT);
+		buf[2] = 0x00;
 
 	// Write data to 3 succeeding registers:
 	// SF_KEY_1, SF_KEY_2 and SFR
