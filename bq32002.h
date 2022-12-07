@@ -63,15 +63,15 @@ typedef union {
 		uint8_t ss;
 		uint8_t mm;
 		uint8_t hh;
-		uint8_t dayofweek;	// value from DAY register
+		uint8_t dayofweek;	// value (decimal 1 to 7) from DAY register
 		uint8_t day;		// value from DATE register
 		uint8_t month;
 		uint8_t year;
 #if TIME_AS_STRING == 1
-		char time[9];	// 13:59:53
+		char time[9];	// e.g. 13:59:53\0
 #endif
 #if DATE_AS_STRING == 1
-		char date[11];	// 22.02.22
+		char date[11];	// e.g. 22.02.2022\0
 #endif
 	};
 } datetime_t;
