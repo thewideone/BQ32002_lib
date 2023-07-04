@@ -50,10 +50,20 @@
 #define TIME_AS_STRING 1
 #define DATE_AS_STRING 1
 
+#ifdef DATE_AS_STRING
+#define DATE_AS_STRING_LONG
+#endif
+
 #define TIME_SEPARATOR ':'
 #define DATE_SEPARATOR '.'
 
 #define BQ32002_HANDLE_CENTURIES
+
+#ifdef BQ32002_HANDLE_CENTURIES
+#define CURRENT_MILLENNIUM_DIGIT	'2'
+#define CURRENT_CENTURY_DIGIT		'0'
+#endif
+
 #define BQ32002_CALIBRATION
 
 // Data structures
@@ -67,11 +77,15 @@ typedef union {
 		uint8_t day;		// value from DATE register
 		uint8_t month;
 		uint8_t year;
-#if TIME_AS_STRING == 1
+#ifdef TIME_AS_STRING
 		char time[9];	// e.g. 13:59:53\0
 #endif
-#if DATE_AS_STRING == 1
+#ifdef DATE_AS_STRING
+#ifdef DATE_AS_STRING_LONG
 		char date[11];	// e.g. 22.02.2022\0
+#else
+		char date[9];	// e.g. 22.02.22\0
+#endif
 #endif
 	};
 } datetime_t;

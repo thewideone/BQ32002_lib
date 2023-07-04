@@ -26,10 +26,10 @@ void BQ32002_getDateTime( datetime_t * dt ){
 	TWI_read_buf( BQ32002_ADDR, BQ32002_REG_SECONDS, 7, buf );
 	for( i=0; i<7; i++ ) dt->bytes[i] = bcd2dec( buf[i] );
 
-#if TIME_AS_STRING == 1 || DATE_AS_STRING == 1
+#if defined(TIME_AS_STRING) || defined(DATE_AS_STRING)
 	char s[2];
 #endif
-#if TIME_AS_STRING == 1
+#ifdef TIME_AS_STRING
 	uint8ToStr( s,dt->hh,2 );
 	dt->time[0] = s[0];
 	dt->time[1] = s[1];
@@ -41,8 +41,9 @@ void BQ32002_getDateTime( datetime_t * dt ){
 	uint8ToStr( s,dt->ss,2 );
 	dt->time[6] = s[0];
 	dt->time[7] = s[1];
+	dt->time[8] = '\0';
 #endif
-#if DATE_AS_STRING == 1
+#ifdef DATE_AS_STRING
 	uint8ToStr( s,dt->day,2 );
 	dt->date[0] = s[0];
 	dt->date[1] = s[1];
@@ -51,9 +52,22 @@ void BQ32002_getDateTime( datetime_t * dt ){
 	dt->date[3] = s[0];
 	dt->date[4] = s[1];
 	dt->date[5] = DATE_SEPARATOR;
+
 	uint8ToStr( s,dt->year,2 );
+#ifdef DATE_AS_STRING_LONG
+	dt->date[6] = CURRENT_MILLENNIUM_DIGIT;
+	dt->date[7] = CURRENT_CENTURY_DIGIT;
+#ifdef BQ32002_HANDLE_CENTURIES
+	dt->date[7] += BQ32002_getCentury();
+#endif
+	dt->date[8] = s[0];
+	dt->date[9] = s[1];
+	dt->date[10] = '\0';
+#else
 	dt->date[6] = s[0];
 	dt->date[7] = s[1];
+	dt->date[8] = '\0';
+#endif
 #endif
 }
 void BQ32002_setTime( uint8_t hh, uint8_t mm, uint8_t ss ){
